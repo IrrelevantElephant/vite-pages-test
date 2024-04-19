@@ -6,33 +6,28 @@ terraform {
   }
 }
 
-locals {
-  github_ns = {
-    "1" = "185.199.108.153",
-    "2" = "185.199.109.153",
-    "3" = "185.199.110.153",
-    "4" = "185.199.111.153"
-  }
+variable "custom_dns" {
+  
 }
 
-resource "ns1_zone" "vitetest_zone" {
-  zone = "vitetest.irrelevantelephant.co.uk"
+resource "ns1_zone" "zone" {
+  zone = var.custom_dns
 }
 
-resource "ns1_record" "www_vitetest" {
-  zone   = ns1_zone.vitetest_zone.zone
-  domain = "vitetest.irrelevantelephant.co.uk"
+resource "ns1_record" "www" {
+  zone   = ns1_zone.zone.zone
+  domain = var.custom_dns
   type   = "A"
   answers {
-    answer = local.github_ns["1"]
+    answer = "185.199.108.153"
   }
   answers {
-    answer = local.github_ns["2"]
+    answer = "185.199.109.153"
   }
   answers {
-    answer = local.github_ns["3"]
+    answer = "185.199.110.153"
   }
   answers {
-    answer = local.github_ns["4"]
+    answer = "185.199.111.153"
   }
 }
